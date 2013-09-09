@@ -49,7 +49,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
-    
+
     'mod/hotquestion:addinstance' => array(
         'riskbitmask' => RISK_XSS,
         'captype' => 'write',
