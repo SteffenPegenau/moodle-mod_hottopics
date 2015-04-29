@@ -17,15 +17,15 @@
 
 
 /**
- * Library of interface functions and constants for module hotquestion
+ * Library of interface functions and constants for module hottopics
  *
  * All the core Moodle functions, neeeded to allow the module to work
  * integrated in Moodle should be placed here.
- * All the hotquestion specific functions, needed to implement all the module
+ * All the hottopics specific functions, needed to implement all the module
  * logic, should go to locallib.php. This will help to save some memory when
  * Moodle is performing actions across all modules.
  *
- * @package   mod_hotquestion
+ * @package   mod_hottopics
  * @copyright 2011 Sun Zhigang
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -49,17 +49,17 @@ defined('MOODLE_INTERNAL') || die();
  * will create a new instance and return the id number
  * of the new instance.
  *
- * @param object $hotquestion An object from the form in mod_form.php
- * @return int The id of the newly inserted hotquestion record
+ * @param object $hottopics An object from the form in mod_form.php
+ * @return int The id of the newly inserted hottopics record
  */
-function hotquestion_add_instance($hotquestion) {
+function hottopics_add_instance($hottopics) {
     global $DB;
 
-    $hotquestion->timecreated = time();
+    $hottopics->timecreated = time();
 
     # You may have to add extra stuff in here #
 
-    $id = $DB->insert_record('hotquestion', $hotquestion);
+    $id = $DB->insert_record('hottopics', $hottopics);
 
     return $id;
 }
@@ -69,18 +69,18 @@ function hotquestion_add_instance($hotquestion) {
  * (defined by the form in mod_form.php) this function
  * will update an existing instance with new data.
  *
- * @param object $hotquestion An object from the form in mod_form.php
+ * @param object $hottopics An object from the form in mod_form.php
  * @return boolean Success/Fail
  */
-function hotquestion_update_instance($hotquestion) {
+function hottopics_update_instance($hottopics) {
     global $DB;
 
-    $hotquestion->timemodified = time();
-    $hotquestion->id = $hotquestion->instance;
+    $hottopics->timemodified = time();
+    $hottopics->id = $hottopics->instance;
 
     # You may have to add extra stuff in here #
 
-    return $DB->update_record('hotquestion', $hotquestion);
+    return $DB->update_record('hottopics', $hottopics);
 }
 
 /**
@@ -91,18 +91,18 @@ function hotquestion_update_instance($hotquestion) {
  * @param int $id Id of the module instance
  * @return boolean Success/Failure
  */
-function hotquestion_delete_instance($id) {
+function hottopics_delete_instance($id) {
     global $DB;
 
-    if (! $hotquestion = $DB->get_record('hotquestion', array('id' => $id))) {
+    if (! $hottopics = $DB->get_record('hottopics', array('id' => $id))) {
         return false;
     }
 
-    if (! reset_instance($hotquestion->id)) {
+    if (! reset_instance($hottopics->id)) {
         return false;
     }
 
-    if (! $DB->delete_records('hotquestion', array('id' => $hotquestion->id))) {
+    if (! $DB->delete_records('hottopics', array('id' => $hottopics->id))) {
         return false;
     }
 
@@ -112,24 +112,24 @@ function hotquestion_delete_instance($id) {
 /**
  * Clear all questions and votes
  * 
- * @param int $hotquestionid
+ * @param int $hottopicsid
  * @return boolean Success/Failure
  */
-function reset_instance($hotquestionid) {
+function reset_instance($hottopicsid) {
     global $DB;
 
-    $questions = $DB->get_records('hotquestion_questions', array('hotquestion' => $hotquestionid));
+    $questions = $DB->get_records('hottopics_questions', array('hottopics' => $hottopicsid));
     foreach ($questions as $question) {
-        if (! $DB->delete_records('hotquestion_votes', array('question' => $question->id))) {
+        if (! $DB->delete_records('hottopics_votes', array('question' => $question->id))) {
             return false;
         }
     }
 
-    if (! $DB->delete_records('hotquestion_questions', array('hotquestion' => $hotquestionid))) {
+    if (! $DB->delete_records('hottopics_questions', array('hottopics' => $hottopicsid))) {
         return false;
     }
 
-    if (! $DB->delete_records('hotquestion_rounds', array('hotquestion' => $hotquestionid))) {
+    if (! $DB->delete_records('hottopics_rounds', array('hottopics' => $hottopicsid))) {
         return false;
     }
 
@@ -146,7 +146,7 @@ function reset_instance($hotquestionid) {
  * @return null
  * @todo Finish documenting this function
  */
-function hotquestion_user_outline($course, $user, $mod, $hotquestion) {
+function hottopics_user_outline($course, $user, $mod, $hottopics) {
     $return = new stdClass;
     $return->time = 0;
     $return->info = '';
@@ -160,19 +160,19 @@ function hotquestion_user_outline($course, $user, $mod, $hotquestion) {
  * @return boolean
  * @todo Finish documenting this function
  */
-function hotquestion_user_complete($course, $user, $mod, $hotquestion) {
+function hottopics_user_complete($course, $user, $mod, $hottopics) {
     return true;
 }
 
 /**
  * Given a course and a time, this module should find recent activity
- * that has occurred in hotquestion activities and print it out.
+ * that has occurred in hottopics activities and print it out.
  * Return true if there was output, or false is there was none.
  *
  * @return boolean
  * @todo Finish documenting this function
  */
-function hotquestion_print_recent_activity($course, $isteacher, $timestart) {
+function hottopics_print_recent_activity($course, $isteacher, $timestart) {
     return false;  //  True if anything was printed, otherwise false
 }
 
@@ -184,21 +184,21 @@ function hotquestion_print_recent_activity($course, $isteacher, $timestart) {
  * @return boolean
  * @todo Finish documenting this function
  **/
-function hotquestion_cron () {
+function hottopics_cron () {
     return true;
 }
 
 /**
  * Must return an array of users who are participants for a given instance
- * of hotquestion. Must include every user involved in the instance,
+ * of hottopics. Must include every user involved in the instance,
  * independient of his role (student, teacher, admin...). The returned
  * objects must contain at least id property.
  * See other modules as example.
  *
- * @param int $hotquestionid ID of an instance of this module
+ * @param int $hottopicsid ID of an instance of this module
  * @return boolean|array false if no participants, array of objects otherwise
  */
-function hotquestion_get_participants($hotquestionid) {
+function hottopics_get_participants($hottopicsid) {
     return false;
 }
 
@@ -211,15 +211,15 @@ function hotquestion_get_participants($hotquestionid) {
  * @param $data the data submitted from the reset course.
  * @return array status array
  */
-function hotquestion_reset_userdata($data) {
+function hottopics_reset_userdata($data) {
     global $DB;
 
     $status = array();
-    if (!empty($data->reset_hotquestion)) {
-        $instances = $DB->get_records('hotquestion', array('course' => $data->courseid));
+    if (!empty($data->reset_hottopics)) {
+        $instances = $DB->get_records('hottopics', array('course' => $data->courseid));
         foreach ($instances as $instance) {
             if (reset_instance($instance->id)) {
-                $status[] = array('component'=>get_string('modulenameplural', 'hotquestion'), 'item'=>get_string('resethotquestion','hotquestion').': '.$instance->name, 'error'=>false);
+                $status[] = array('component'=>get_string('modulenameplural', 'hottopics'), 'item'=>get_string('resethottopics','hottopics').': '.$instance->name, 'error'=>false);
             }
         }
     }
@@ -232,13 +232,13 @@ function hotquestion_reset_userdata($data) {
  *
  * @param $mform form passed by reference
  */
-function hotquestion_reset_course_form_definition(&$mform) {
-    $mform->addElement('header', 'hotquestionheader', get_string('modulenameplural', 'hotquestion'));
-    $mform->addElement('checkbox', 'reset_hotquestion', get_string('resethotquestion','hotquestion'));
+function hottopics_reset_course_form_definition(&$mform) {
+    $mform->addElement('header', 'hottopicsheader', get_string('modulenameplural', 'hottopics'));
+    $mform->addElement('checkbox', 'reset_hottopics', get_string('resethottopics','hottopics'));
 }
 
 /**
- * Indicates API features that the hotquestion supports.
+ * Indicates API features that the hottopics supports.
  *
  * @uses FEATURE_GROUPS
  * @uses FEATURE_GROUPINGS
@@ -251,7 +251,7 @@ function hotquestion_reset_course_form_definition(&$mform) {
  * @param string $feature
  * @return mixed True if yes (some features may use other values)
  */
-function hotquestion_supports($feature) {
+function hottopics_supports($feature) {
     switch($feature) {
         case FEATURE_GROUPS:                  return false;
         case FEATURE_GROUPINGS:               return false;

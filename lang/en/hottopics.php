@@ -17,9 +17,9 @@
 
 
 /**
- * English strings for hotquestion
+ * English strings for hottopics
  *
- * @package   mod_hotquestion
+ * @package   mod_hottopics
  * @copyright 2011 Sun Zhigang
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -32,26 +32,26 @@ $string['authorinfo'] = 'Posted by {$a->user} at {$a->time}';
 $string['connectionerror'] = 'Connection error';
 $string['displayasanonymous'] = 'Display as anonymous';
 $string['heat'] = 'Heat';
-$string['hotquestionintro'] = 'Topic';
-$string['hotquestionname'] = 'Activity Name';
-$string['hotquestion:ask'] = 'Ask questions';
-$string['hotquestion:manage'] = 'Manage questions';
-$string['hotquestion:view'] = 'View questions';
-$string['hotquestion:vote'] = 'Vote on questions';
+$string['hottopicsintro'] = 'Topic';
+$string['hottopicsname'] = 'Activity Name';
+$string['hottopics:ask'] = 'Ask questions';
+$string['hottopics:manage'] = 'Manage questions';
+$string['hottopics:view'] = 'View questions';
+$string['hottopics:vote'] = 'Vote on questions';
 $string['inputquestion'] = 'Submit your question here:';
 $string['invalidquestion'] = 'Empty questions are ignored.';
-$string['modulename'] = 'Hot Question';
-$string['modulename_help'] = 'Hot question enables studends post/vote questions so that teachers know what they are expecting.';
-$string['modulenameplural'] = 'Hot Questions';
+$string['modulename'] = 'Hot Topics';
+$string['modulename_help'] = 'Hot Topics enables studends post/vote questions so that teachers know what they are expecting.';
+$string['modulenameplural'] = 'Hot Topicss';
 $string['newround'] = 'Open a new round';
 $string['newroundconfirm'] = 'Are you sure? (Existing questions and votes will be archived)';
 $string['nextround'] = 'Next round';
 $string['noquestions'] = 'No question now.';
-$string['pluginadministration'] = 'Hot question administration';
-$string['pluginname'] = 'Hot Question';
+$string['pluginadministration'] = 'Hot Topics administration';
+$string['pluginname'] = 'Hot Topics';
 $string['previousround'] = 'Previous round';
 $string['question'] = 'Questions';
 $string['questionsubmitted'] = 'Your question has been submitted successfully.';
-$string['resethotquestion'] = 'Delete all questions and votes';
+$string['resethottopics'] = 'Delete all questions and votes';
 $string['round'] = 'Round {$a}';
 $string['vote'] = 'Vote';

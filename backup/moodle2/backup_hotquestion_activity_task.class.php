@@ -22,14 +22,14 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once($CFG->dirroot . '/mod/hotquestion/backup/moodle2/backup_hotquestion_stepslib.php'); // Because it exists (must)
-require_once($CFG->dirroot . '/mod/hotquestion/backup/moodle2/backup_hotquestion_settingslib.php'); // Because it exists (optional)
+require_once($CFG->dirroot . '/mod/hottopics/backup/moodle2/backup_hottopics_stepslib.php'); // Because it exists (must)
+require_once($CFG->dirroot . '/mod/hottopics/backup/moodle2/backup_hottopics_settingslib.php'); // Because it exists (optional)
 
 /**
- * hotquestion backup task that provides all the settings and steps to perform one
+ * hottopics backup task that provides all the settings and steps to perform one
  * complete backup of the activity
  */
-class backup_hotquestion_activity_task extends backup_activity_task {
+class backup_hottopics_activity_task extends backup_activity_task {
 
     /**
      * Define (add) particular settings this activity can have
@@ -43,7 +43,7 @@ class backup_hotquestion_activity_task extends backup_activity_task {
      */
     protected function define_my_steps() {
         // Choice only has one structure step
-        $this->add_step(new backup_hotquestion_activity_structure_step('hotquestion_structure', 'hotquestion.xml'));
+        $this->add_step(new backup_hottopics_activity_structure_step('hottopics_structure', 'hottopics.xml'));
     }
 
     /**
@@ -55,12 +55,12 @@ class backup_hotquestion_activity_task extends backup_activity_task {
 
         $base = preg_quote($CFG->wwwroot,"/");
 
-        // Link to the list of hotquestions
-        $search="/(".$base."\/mod\/hotquestion\/index.php\?id\=)([0-9]+)/";
+        // Link to the list of hottopicss
+        $search="/(".$base."\/mod\/hottopics\/index.php\?id\=)([0-9]+)/";
         $content= preg_replace($search, '$@HOTQUESTIONINDEX*$2@$', $content);
 
-        // Link to hotquestion view by moduleid
-        $search="/(".$base."\/mod\/hotquestion\/view.php\?id\=)([0-9]+)/";
+        // Link to hottopics view by moduleid
+        $search="/(".$base."\/mod\/hottopics\/view.php\?id\=)([0-9]+)/";
         $content= preg_replace($search, '$@HOTQUESTIONVIEWBYID*$2@$', $content);
 
         return $content;

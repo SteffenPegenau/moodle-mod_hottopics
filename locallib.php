@@ -17,12 +17,12 @@
 
 
 /**
- * Internal library of functions for module hotquestion
+ * Internal library of functions for module hottopics
  *
- * All the hotquestion specific functions, needed to implement the module
+ * All the hottopics specific functions, needed to implement the module
  * logic, should go here. Never include this file from your lib.php!
  *
- * @package   mod_hotquestion
+ * @package   mod_hottopics
  * @copyright 2011 Sun Zhigang
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -42,5 +42,5 @@ function has_voted($question, $user = -1) {
     if ($user == -1)
         $user = $USER->id;
 
-    return $DB->record_exists('hotquestion_votes', array('question'=>$question, 'voter'=>$user));
+    return $DB->record_exists('hottopics_votes', array('question'=>$question, 'voter'=>$user));
 }

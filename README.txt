@@ -7,4 +7,4 @@ which can access the moodle site. Students can also vote on others'
 questions, so that the hottest questions will be popped up. Teachers 
 can make orally comments on selected questions in classroom.
 
-Details: https://github.com/hit-moodle/moodle-mod_hotquestion/wiki
+Details: https://github.com/SteffenPegenau/moodle-mod_hottopics

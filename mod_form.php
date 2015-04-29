@@ -17,12 +17,12 @@
 
 
 /**
- * The main hotquestion configuration form
+ * The main hottopics configuration form
  *
  * It uses the standard core Moodle formslib. For more info about them, please
  * visit: http://docs.moodle.org/en/Development:lib/formslib.php
  *
- * @package   mod_hotquestion
+ * @package   mod_hottopics
  * @copyright 2011 Sun Zhigang
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/course/moodleform_mod.php');
 
-class mod_hotquestion_mod_form extends moodleform_mod {
+class mod_hottopics_mod_form extends moodleform_mod {
 
     function definition() {
 
@@ -43,7 +43,7 @@ class mod_hotquestion_mod_form extends moodleform_mod {
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
     /// Adding the standard "name" field
-        $mform->addElement('text', 'name', get_string('hotquestionname', 'hotquestion'), array('size'=>'64'));
+        $mform->addElement('text', 'name', get_string('hottopicsname', 'hottopics'), array('size'=>'64'));
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
         } else {
@@ -56,10 +56,10 @@ class mod_hotquestion_mod_form extends moodleform_mod {
         $this->add_intro_editor();
 
 //-------------------------------------------------------------------------------
-    /// Adding the rest of hotquestion settings, spreeading all them into this fieldset
+    /// Adding the rest of hottopics settings, spreeading all them into this fieldset
     /// or adding more fieldsets ('header' elements) if needed for better logic
         /// Adding 'anonymouspost' field
-        $mform->addElement('selectyesno', 'anonymouspost', get_string('allowanonymouspost', 'hotquestion'));
+        $mform->addElement('selectyesno', 'anonymouspost', get_string('allowanonymouspost', 'hottopics'));
         $mform->setDefault('anonymouspost', '1');
 
 //-------------------------------------------------------------------------------
@@ -73,7 +73,7 @@ class mod_hotquestion_mod_form extends moodleform_mod {
 }
 
 //Form for submitting question
-class hotquestion_form extends moodleform {
+class hottopics_form extends moodleform {
 
     function definition() {
         global $CFG, $cm;
@@ -81,14 +81,14 @@ class hotquestion_form extends moodleform {
         $allow_anonymous = $this->_customdata;
 
         $mform =& $this->_form;
-        $mform->addElement('textarea', 'question', get_string('inputquestion', 'hotquestion'), 'wrap="virtual" rows="3" cols="50"');
+        $mform->addElement('textarea', 'question', get_string('inputquestion', 'hottopics'), 'wrap="virtual" rows="3" cols="50"');
         $mform->setType('question', PARAM_TEXT);
-        $mform->addElement('hidden', 'id', $cm->id, 'id="hotquestion_courseid"');
+        $mform->addElement('hidden', 'id', $cm->id, 'id="hottopics_courseid"');
 
         $submitgroup = array();
         $submitgroup[] =& $mform->createElement('submit', 'submitbutton', get_string('post'));
         if ($allow_anonymous) {
-            $submitgroup[] =& $mform->createElement('checkbox', 'anonymous', '', get_string('displayasanonymous', 'hotquestion'));
+            $submitgroup[] =& $mform->createElement('checkbox', 'anonymous', '', get_string('displayasanonymous', 'hottopics'));
             $mform->setType('anonymous', PARAM_BOOL);
         }
         $mform->addGroup($submitgroup);

@@ -23,31 +23,31 @@
  */
 
 /**
- * Define all the restore steps that will be used by the restore_hotquestion_activity_task
+ * Define all the restore steps that will be used by the restore_hottopics_activity_task
  */
 
 /**
- * Structure step to restore one hotquestion activity
+ * Structure step to restore one hottopics activity
  */
-class restore_hotquestion_activity_structure_step extends restore_activity_structure_step {
+class restore_hottopics_activity_structure_step extends restore_activity_structure_step {
 
     protected function define_structure() {
 
         $paths = array();
         $userinfo = $this->get_setting_value('userinfo');
 
-        $paths[] = new restore_path_element('hotquestion', '/activity/hotquestion');
+        $paths[] = new restore_path_element('hottopics', '/activity/hottopics');
         if ($userinfo) {
-            $paths[] = new restore_path_element('hotquestion_question', '/activity/hotquestion/questions/question');
-            $paths[] = new restore_path_element('hotquestion_round', '/activity/hotquestion/rounds/round');
-            $paths[] = new restore_path_element('hotquestion_vote', '/activity/hotquestion/questions/question/votes/vote');
+            $paths[] = new restore_path_element('hottopics_question', '/activity/hottopics/questions/question');
+            $paths[] = new restore_path_element('hottopics_round', '/activity/hottopics/rounds/round');
+            $paths[] = new restore_path_element('hottopics_vote', '/activity/hottopics/questions/question/votes/vote');
         }
 
         // Return the paths wrapped into standard activity structure
         return $this->prepare_activity_structure($paths);
     }
 
-    protected function process_hotquestion($data) {
+    protected function process_hottopics($data) {
         global $DB;
 
         $data = (object)$data;
@@ -57,56 +57,56 @@ class restore_hotquestion_activity_structure_step extends restore_activity_struc
         $data->timecreated = $this->apply_date_offset($data->timecreated);
         $data->timemodified = $this->apply_date_offset($data->timemodified);
 
-        // insert the hotquestion record
-        $newitemid = $DB->insert_record('hotquestion', $data);
+        // insert the hottopics record
+        $newitemid = $DB->insert_record('hottopics', $data);
         // immediately after inserting "activity" record, call this
         $this->apply_activity_instance($newitemid);
     }
 
-    protected function process_hotquestion_question($data) {
+    protected function process_hottopics_question($data) {
         global $DB;
 
         $data = (object)$data;
         $oldid = $data->id;
 
-        $data->hotquestion = $this->get_new_parentid('hotquestion');
+        $data->hottopics = $this->get_new_parentid('hottopics');
         $data->userid = $this->get_mappingid('user', $data->userid);
         $data->time = $this->apply_date_offset($data->time);
 
-        $newitemid = $DB->insert_record('hotquestion_questions', $data);
-        $this->set_mapping('hotquestion_question', $oldid, $newitemid);
+        $newitemid = $DB->insert_record('hottopics_questions', $data);
+        $this->set_mapping('hottopics_question', $oldid, $newitemid);
     }
 
-    protected function process_hotquestion_round($data) {
+    protected function process_hottopics_round($data) {
         global $DB;
 
         $data = (object)$data;
         $oldid = $data->id;
 
-        $data->hotquestion = $this->get_new_parentid('hotquestion');
+        $data->hottopics = $this->get_new_parentid('hottopics');
         $data->starttime = $this->apply_date_offset($data->starttime);
         $data->endtime = $this->apply_date_offset($data->endtime);
 
-        $newitemid = $DB->insert_record('hotquestion_rounds', $data);
+        $newitemid = $DB->insert_record('hottopics_rounds', $data);
         // No need to save this mapping as far as nothing depend on it
         // (child paths, file areas nor links decoder)
     }
 
-    protected function process_hotquestion_vote($data) {
+    protected function process_hottopics_vote($data) {
         global $DB;
 
         $data = (object)$data;
 
-        $data->question = $this->get_new_parentid('hotquestion_question');
+        $data->question = $this->get_new_parentid('hottopics_question');
         $data->voter = $this->get_mappingid('user', $data->voter);
 
-        $newitemid = $DB->insert_record('hotquestion_votes', $data);
+        $newitemid = $DB->insert_record('hottopics_votes', $data);
         // No need to save this mapping as far as nothing depend on it
         // (child paths, file areas nor links decoder)
     }
 
     protected function after_execute() {
-        // Add hotquestion related files, no need to match by itemname (just internally handled context)
-        $this->add_related_files('mod_hotquestion', 'intro', null);
+        // Add hottopics related files, no need to match by itemname (just internally handled context)
+        $this->add_related_files('mod_hottopics', 'intro', null);
     }
 }

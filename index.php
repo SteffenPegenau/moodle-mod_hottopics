@@ -22,7 +22,7 @@
  * You can have a rather longer description of the file as well,
  * if you like, and it can span multiple lines.
  *
- * @package   mod_hotquestion
+ * @package   mod_hottopics
  * @copyright 2011 Sun Zhigang
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -39,11 +39,11 @@ if (! $course = $DB->get_record('course', array('id' => $id))) {
 
 require_course_login($course);
 
-add_to_log($course->id, 'hotquestion', 'view all', "index.php?id=$course->id", '');
+add_to_log($course->id, 'hottopics', 'view all', "index.php?id=$course->id", '');
 
 /// Print the header
 
-$PAGE->set_url('/mod/hotquestion/view.php', array('id' => $id));
+$PAGE->set_url('/mod/hottopics/view.php', array('id' => $id));
 $PAGE->set_title($course->fullname);
 $PAGE->set_heading($course->shortname);
 
@@ -51,8 +51,8 @@ echo $OUTPUT->header();
 
 /// Get all the appropriate data
 
-if (! $hotquestions = get_all_instances_in_course('hotquestion', $course)) {
-    echo $OUTPUT->heading(get_string('nohotquestion', 'hotquestion'), 2);
+if (! $hottopicss = get_all_instances_in_course('hottopics', $course)) {
+    echo $OUTPUT->heading(get_string('nohottopics', 'hottopics'), 2);
     echo $OUTPUT->continue_button("view.php?id=$course->id");
     echo $OUTPUT->footer();
     die();
@@ -76,23 +76,23 @@ if ($course->format == 'weeks') {
     $table->align = array ('left', 'left', 'left');
 }
 
-foreach ($hotquestions as $hotquestion) {
-    if (!$hotquestion->visible) {
+foreach ($hottopicss as $hottopics) {
+    if (!$hottopics->visible) {
         //Show dimmed if the mod is hidden
-        $link = '<a class="dimmed" href="view.php?id='.$hotquestion->coursemodule.'">'.format_string($hotquestion->name).'</a>';
+        $link = '<a class="dimmed" href="view.php?id='.$hottopics->coursemodule.'">'.format_string($hottopics->name).'</a>';
     } else {
         //Show normal if the mod is visible
-        $link = '<a href="view.php?id='.$hotquestion->coursemodule.'">'.format_string($hotquestion->name).'</a>';
+        $link = '<a href="view.php?id='.$hottopics->coursemodule.'">'.format_string($hottopics->name).'</a>';
     }
 
     if ($course->format == 'weeks' or $course->format == 'topics') {
-        $table->data[] = array ($hotquestion->section, $link);
+        $table->data[] = array ($hottopics->section, $link);
     } else {
         $table->data[] = array ($link);
     }
 }
 
-echo $OUTPUT->heading(get_string('modulenameplural', 'hotquestion'), 2);
+echo $OUTPUT->heading(get_string('modulenameplural', 'hottopics'), 2);
 print_table($table);
 
 /// Finish the page

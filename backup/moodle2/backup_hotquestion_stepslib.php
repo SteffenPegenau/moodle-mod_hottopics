@@ -23,13 +23,13 @@
  */
 
 /**
- * Define all the backup steps that will be used by the backup_hotquestion_activity_task
+ * Define all the backup steps that will be used by the backup_hottopics_activity_task
  */
 
 /**
- * Define the complete hotquestion structure for backup, with file and id annotations
+ * Define the complete hottopics structure for backup, with file and id annotations
  */
-class backup_hotquestion_activity_structure_step extends backup_activity_structure_step {
+class backup_hottopics_activity_structure_step extends backup_activity_structure_step {
 
     protected function define_structure() {
 
@@ -37,7 +37,7 @@ class backup_hotquestion_activity_structure_step extends backup_activity_structu
         $userinfo = $this->get_setting_value('userinfo');
 
         // Define each element separated
-        $hotquestion = new backup_nested_element('hotquestion', array('id'), array(
+        $hottopics = new backup_nested_element('hottopics', array('id'), array(
             'name', 'intro', 'introformat', 'timecreated',
             'timemodified', 'anonymouspost'));
 
@@ -56,23 +56,23 @@ class backup_hotquestion_activity_structure_step extends backup_activity_structu
         $vote = new backup_nested_element('vote', array('id'), array('voter'));
 
         // Build the tree
-        $hotquestion->add_child($questions);
+        $hottopics->add_child($questions);
         $questions->add_child($question);
 
-        $hotquestion->add_child($rounds);
+        $hottopics->add_child($rounds);
         $rounds->add_child($round);
 
         $question->add_child($votes);
         $votes->add_child($vote);
 
         // Define sources
-        $hotquestion->set_source_table('hotquestion', array('id' => backup::VAR_ACTIVITYID));
+        $hottopics->set_source_table('hottopics', array('id' => backup::VAR_ACTIVITYID));
 
         // All the rest of elements only happen if we are including user info
         if ($userinfo) {
-            $question->set_source_table('hotquestion_questions', array('hotquestion' => backup::VAR_PARENTID));
-            $round->set_source_table('hotquestion_rounds', array('hotquestion' => backup::VAR_PARENTID));
-            $vote->set_source_table('hotquestion_votes', array('question' => backup::VAR_PARENTID));
+            $question->set_source_table('hottopics_questions', array('hottopics' => backup::VAR_PARENTID));
+            $round->set_source_table('hottopics_rounds', array('hottopics' => backup::VAR_PARENTID));
+            $vote->set_source_table('hottopics_votes', array('question' => backup::VAR_PARENTID));
         }
 
         // Define id annotations
@@ -80,9 +80,9 @@ class backup_hotquestion_activity_structure_step extends backup_activity_structu
         $vote->annotate_ids('user', 'voter');
 
         // Define file annotations
-        $hotquestion->annotate_files('mod_hotquestion', 'intro', null); // This file area hasn't itemid
+        $hottopics->annotate_files('mod_hottopics', 'intro', null); // This file area hasn't itemid
 
-        // Return the root element (hotquestion), wrapped into standard activity structure
-        return $this->prepare_activity_structure($hotquestion);
+        // Return the root element (hottopics), wrapped into standard activity structure
+        return $this->prepare_activity_structure($hottopics);
     }
 }

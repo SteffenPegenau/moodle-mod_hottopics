@@ -16,24 +16,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * A custmom renderer class that extends the plugin_renderer_base and is used by the hotquestion module
+ * A custmom renderer class that extends the plugin_renderer_base and is used by the hottopics module
  *
- * @package   mod_hotquestion
+ * @package   mod_hottopics
  * @copyright 2012 Zhang Anzhen
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
 
-class mod_hotquestion_renderer extends plugin_renderer_base {
-    private $hotquestion;
+class mod_hottopics_renderer extends plugin_renderer_base {
+    private $hottopics;
 
     /**
      * Initialise internal objects.
      *
-     * @param object $hotquestion
+     * @param object $hottopics
      */
-    public function init($hotquestion) {
-        $this->hotquestion = $hotquestion;
+    public function init($hottopics) {
+        $this->hottopics = $hottopics;
     }
 
     /**
@@ -41,9 +41,9 @@ class mod_hotquestion_renderer extends plugin_renderer_base {
      */
     public function introduction() {
         $output = '';
-        if (trim($this->hotquestion->instance->intro)) {
+        if (trim($this->hottopics->instance->intro)) {
             $output .= $this->box_start('generalbox boxaligncenter', 'intro');
-            $output .= format_module_intro('hotquestion', $this->hotquestion->instance, $this->hotquestion->cm->id);
+            $output .= format_module_intro('hottopics', $this->hottopics->instance, $this->hottopics->cm->id);
             $output .= $this->box_end();
         }
         return $output;
@@ -60,15 +60,15 @@ class mod_hotquestion_renderer extends plugin_renderer_base {
         $toolbuttons = array();
 
         //  Print next/prev round bar
-        if ($this->hotquestion->get_prev_round() != null) {
-            $url = new moodle_url('/mod/hotquestion/view.php', array('id'=>$this->hotquestion->cm->id, 'round'=>$this->hotquestion->get_prev_round()->id));
-            $toolbuttons[] = html_writer::link($url, $this->pix_icon('t/collapsed_rtl', get_string('previousround', 'hotquestion')), array('class' => 'toolbutton'));
+        if ($this->hottopics->get_prev_round() != null) {
+            $url = new moodle_url('/mod/hottopics/view.php', array('id'=>$this->hottopics->cm->id, 'round'=>$this->hottopics->get_prev_round()->id));
+            $toolbuttons[] = html_writer::link($url, $this->pix_icon('t/collapsed_rtl', get_string('previousround', 'hottopics')), array('class' => 'toolbutton'));
         } else {
             $toolbuttons[] = html_writer::tag('span', $this->pix_icon('t/collapsed_empty_rtl', ''), array('class' => 'dis_toolbutton'));
         }
-        if ($this->hotquestion->get_next_round() != null) {
-            $url = new moodle_url('/mod/hotquestion/view.php', array('id'=>$this->hotquestion->cm->id, 'round'=>$this->hotquestion->get_next_round()->id));
-            $toolbuttons[] = html_writer::link($url, $this->pix_icon('t/collapsed', get_string('nextround', 'hotquestion')), array('class' => 'toolbutton'));
+        if ($this->hottopics->get_next_round() != null) {
+            $url = new moodle_url('/mod/hottopics/view.php', array('id'=>$this->hottopics->cm->id, 'round'=>$this->hottopics->get_next_round()->id));
+            $toolbuttons[] = html_writer::link($url, $this->pix_icon('t/collapsed', get_string('nextround', 'hottopics')), array('class' => 'toolbutton'));
         } else {
             $toolbuttons[] = html_writer::tag('span', $this->pix_icon('t/collapsed_empty', ''), array('class' => 'dis_toolbutton'));
         }
@@ -76,14 +76,14 @@ class mod_hotquestion_renderer extends plugin_renderer_base {
         // Print new round bar
         if ($show_new) {
             $options = array();
-            $options['id'] = $this->hotquestion->cm->id;
+            $options['id'] = $this->hottopics->cm->id;
             $options['action'] = 'newround';
-            $url = new moodle_url('/mod/hotquestion/view.php', $options);
-            $toolbuttons[] = html_writer::link($url, $this->pix_icon('t/add', get_string('newround', 'hotquestion')), array('class' => 'toolbutton'));
+            $url = new moodle_url('/mod/hottopics/view.php', $options);
+            $toolbuttons[] = html_writer::link($url, $this->pix_icon('t/add', get_string('newround', 'hottopics')), array('class' => 'toolbutton'));
         }
 
         // Print refresh button
-        $url = new moodle_url('/mod/hotquestion/view.php', array('id'=>$this->hotquestion->cm->id));
+        $url = new moodle_url('/mod/hottopics/view.php', array('id'=>$this->hottopics->cm->id));
         $toolbuttons[] = html_writer::link($url, $this->pix_icon('t/reload', get_string('reload')), array('class' => 'toolbutton'));
 	
         // return all available toolbuttons
@@ -108,14 +108,14 @@ class mod_hotquestion_renderer extends plugin_renderer_base {
         $output = '';
 
         // Search questions in current round
-        $questions = $this->hotquestion->get_questions();
+        $questions = $this->hottopics->get_questions();
         if ($questions) {
             $table = new html_table();
             $table->cellpadding = 10;
             $table->class = 'generaltable';
             $table->width = '100%';
             $table->align = array ('left', 'center');
-            $table->head = array(get_string('question', 'hotquestion'), get_string('heat', 'hotquestion'));
+            $table->head = array(get_string('question', 'hottopics'), get_string('heat', 'hottopics'));
 
             foreach ($questions as $question) {
                 $line = array();
@@ -124,19 +124,19 @@ class mod_hotquestion_renderer extends plugin_renderer_base {
                 $user = $DB->get_record('user', array('id'=>$question->userid));
 
                 if ($question->anonymous) {
-                    $a->user = get_string('anonymous', 'hotquestion');
+                    $a->user = get_string('anonymous', 'hottopics');
                 } else {
-                    $a->user = '<a href="' . $CFG->wwwroot . '/user/view.php?id=' . $user->id . '&amp;course=' . $this->hotquestion->course->id . '">' . fullname($user) . '</a>';
+                    $a->user = '<a href="' . $CFG->wwwroot . '/user/view.php?id=' . $user->id . '&amp;course=' . $this->hottopics->course->id . '">' . fullname($user) . '</a>';
                 }
                 $a->time = userdate($question->time).'&nbsp('.get_string('early', 'assignment', format_time(time() - $question->time)) . ')';
-                $info = '<div class="author">'.get_string('authorinfo', 'hotquestion', $a).'</div>';
+                $info = '<div class="author">'.get_string('authorinfo', 'hottopics', $a).'</div>';
                 $line[] = $content.$info;
                 $heat = $question->votecount;
 
                 // Print the vote cron
-                if ($allow_vote && $this->hotquestion->can_vote_on($question)){
-                    if (!$this->hotquestion->has_voted($question->id)){
-                        $heat .= '&nbsp;<a href="view.php?id='.$this->hotquestion->cm->id.'&action=vote&q='.$question->id.'" class="hotquestion_vote" id="question_'.$question->id.'"><img src="'.$this->pix_url('s/yes').'" title="'.get_string('vote', 'hotquestion') .'" alt="'. get_string('vote', 'hotquestion') .'"/></a>';
+                if ($allow_vote && $this->hottopics->can_vote_on($question)){
+                    if (!$this->hottopics->has_voted($question->id)){
+                        $heat .= '&nbsp;<a href="view.php?id='.$this->hottopics->cm->id.'&action=vote&q='.$question->id.'" class="hottopics_vote" id="question_'.$question->id.'"><img src="'.$this->pix_url('s/yes').'" title="'.get_string('vote', 'hottopics') .'" alt="'. get_string('vote', 'hottopics') .'"/></a>';
                     }
                 }
                 $line[] = $heat;
@@ -144,7 +144,7 @@ class mod_hotquestion_renderer extends plugin_renderer_base {
             }
             $output .= html_writer::table($table);
         } else {
-            $output .= $this->box(get_string('noquestions', 'hotquestion'), 'center', '70%');
+            $output .= $this->box(get_string('noquestions', 'hottopics'), 'center', '70%');
         }
         return $output;
     }
